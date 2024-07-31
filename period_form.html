@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Period</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f3e5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin-top: 500px;
+        }
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 80%;
+            max-width: 600px;
+            border: 2px solid #ab47bc;
+        }
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #6a1b9a;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #4a148c;
+        }
+        input[type="text"],
+        input[type="date"],
+        textarea,
+        select,
+        input[type="number"] {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+            background-color: #f3e5f5;
+        }
+        textarea {
+            height: 100px;
+            resize: vertical;
+        }
+        .form-group {
+            margin-bottom: 12px;
+        }
+        .form-group input[type="radio"] {
+            margin-right: 8px;
+        }
+        .form-group label {
+            display: inline;
+            margin-right: 16px;
+        }
+        .submit-btn {
+            background-color: #8e24aa;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .submit-btn:hover {
+            background-color: #7b1fa2;
+        }
+        .hidden {
+            display: none;
+        }
+        fieldset {
+            border: 1px solid #ddd;
+            padding: 10px;
+            border-radius: 4px;
+        }
+        legend {
+    font-weight: bold;
+    color: #6a1b9a;
+}
+
+legend::after {
+    content: " (at least 2 required)";
+    color: red;
+    font-weight: normal;
+    font-size: 14px;
+    margin-left: 5px;
+}
+
+    </style>
+    
+</head>
+<body>
+    <div class="container">
+        <h1>Add Period</h1>
+        <form id="dataForm">
+            <!-- User Identification -->
+            <div class="form-group">
+                <label for="user_name">Your Name:</label>
+                <input type="text" id="user_name" name="user_name" required>
+            </div>
+
+            <div class="form-group">
+                <label>Is this data for yourself or someone else?</label>
+                <label><input type="radio" name="is_for_self" value="self" checked>Myself</label>
+                <label><input type="radio" name="is_for_self" value="someone_else">Someone else</label>
+            </div>
+
+            <!-- Conditional fields for someone else -->
+            <div id="someoneElseFields" class="hidden">
+                <div class="form-group">
+                    <label for="person_name">Person's Name:</label>
+                    <input type="text" id="person_name" name="person_name">
+                </div>
+                <div class="form-group">
+                    <label for="relation">Relation:</label>
+                    <input type="text" id="relation" name="relation">
+                </div>
+                <div class="form-group">
+                    <label for="dob">Person's Date of Birth:</label>
+                    <input type="date" id="dob" name="dob">
+                </div>
+            </div>
+
+            <!-- Period Details -->
+            <div class="form-group">
+                <label for="period_start_date">Period Start Date:</label>
+                <input type="date" id="period_start_date" name="period_start_date" required>
+            </div>
+
+            <div class="form-group">
+                <label for="period_end_date">Period End Date:</label>
+                <input type="date" id="period_end_date" name="period_end_date" required>
+            </div>
+
+            <div class="form-group">
+                <label>How are you feeling today?</label>
+                <select id="mood" name="mood">
+                    <option value="">Select Mood</option>
+                    <option value="happy">Happy</option>
+                    <option value="sad">Sad</option>
+                    <option value="anxious">Anxious</option>
+                    <option value="angry">Angry</option>
+                    <option value="neutral">Neutral</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="mood_intensity">Mood Intensity (1 to 10):</label>
+                <input type="number" id="mood_intensity" name="mood_intensity" min="1" max="10">
+            </div>
+
+            <!-- Last Three Periods -->
+            <fieldset>
+                <legend>Last Three Periods (at least 2 required)</legend>
+                <p class="required">* Please fill out at least 2 of the following fields. More accurate data will help with more accurate results.</p>
+
+                <div class="form-group">
+                    <label for="last_period_1_start_date"> Previous month's period 1 start date</label>
+                    <input type="date" id="last_period_1_start_date" name="last_period_1_start_date">
+                </div>
+                <div class="form-group">
+                    <label for="last_period_1_end_date">Previous month's period 1 End Date:</label>
+                    <input type="date" id="last_period_1_end_date" name="last_period_1_end_date">
+                </div>
+                <div class="form-group">
+                    <label for="last_period_1_feeling">How did you feel during Previous month's Period 1?</label>
+                    <textarea id="last_period_1_feeling" name="last_period_1_feeling"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="last_period_2_start_date">Previous month's period 2 Start Date:</label>
+                    <input type="date" id="last_period_2_start_date" name="last_period_2_start_date">
+                </div>
+                <div class="form-group">
+                    <label for="last_period_2_end_date">Previous month's period 2 End Date:</label>
+                    <input type="date" id="last_period_2_end_date" name="last_period_2_end_date">
+                </div>
+                <div class="form-group">
+                    <label for="last_period_2_feeling">How did you feel during Previous month's Period 2?</label>
+                    <textarea id="last_period_2_feeling" name="last_period_2_feeling"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="last_period_3_start_date">Previous month's period 3 Start Date:</label>
+                    <input type="date" id="last_period_3_start_date" name="last_period_3_start_date">
+                </div>
+                <div class="form-group">
+                    <label for="last_period_3_end_date">Previous month's period 3 End Date:</label>
+                    <input type="date" id="last_period_3_end_date" name="last_period_3_end_date">
+                </div>
+                <div class="form-group">
+                    <label for="last_period_3_feeling">How did you feel during Previous month's period 3?</label>
+                    <textarea id="last_period_3_feeling" name="last_period_3_feeling"></textarea>
+                </div>
+            </fieldset>
+
+            <input type="button" class="submit-btn" value="Add Details" onclick="handleSubmit()">
+        </form>
+    </div>
+
+    <script>
+        // Handle display of fields based on user selection
+        document.querySelectorAll('input[name="is_for_self"]').forEach(radio => {
+            radio.addEventListener('change', function(event) {
+                const isSomeoneElse = event.target.value === 'someone_else';
+                document.getElementById('someoneElseFields').style.display = isSomeoneElse ? 'block' : 'none';
+            });
+        });
+
+        // Handle form submission
+        function handleSubmit() {
+            const form = document.getElementById('dataForm');
+            const formData = new FormData(form);
+            const data = Object.fromEntries(formData.entries());
+            const requiredFields = [
+                'period_start_date', 'period_end_date'
+            ];
+            const filledFields = requiredFields.filter(field => data[field]);
+
+            if (data['is_for_self'] === 'someone_else') {
+                requiredFields.push('person_name', 'relation', 'dob');
+                if (!data['person_name'] || !data['relation'] || !data['dob']) {
+                    alert('Please provide the person\'s name, relation, and date of birth.');
+                    return false;
+                }
+            }
+
+            if (filledFields.length < 2) {
+                alert('Please fill out at least 2 of the period fields.');
+                return false;
+            }
+
+            // Send data to add_details.php
+            fetch('add_details.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(result => {
+                if (result.success) {
+                    // Redirect to dashboard.html
+                    window.location.href = 'dashboard.html';
+                } else {
+                    alert(result.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An unexpected error occurred. Please try again later.');
+            });
+
+            return false; // Prevent form from submitting the default way
+        }
+    </script>
+</body>
+</html>

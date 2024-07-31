@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PMS Tracker Dashboard</title>
+    <style>
+    @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap");
+
+    .logo-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+    .logo {
+        width: 60px; /* Adjust size as needed */
+        height: auto;
+        margin-right: 15px;
+    }
+
+    .site-title {
+        font-size: 32px;
+        color: #333;
+    }
+
+    body {
+        font-family: "Roboto", sans-serif;
+        background-color: var(--background-color, #ffffff);
+        color: var(--text-color, #000000);
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+        margin: 0;
+        transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    .dashboard {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 40px;
+        background: rgb(237, 179, 255);
+        border-radius: 12px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        margin: 20px auto;
+        width: 80%;
+        max-width: 1000px;
+        transition: background-color 0.3s ease;
+    }
+
+    .dashboard h1 {
+        margin-bottom: 20px;
+        color: #333;
+        font-size: 28px;
+    }
+
+    .dashboard .calendar {
+        width: 100%;
+        text-align: center;
+    }
+
+    .dashboard .calendar img {
+        max-width: 100%;
+    }
+
+    .dashboard .customize {
+        margin-top: 20px;
+        text-align: center;
+    }
+
+      .dashboard .customize label {
+        font-size: 16px;
+        margin-right: 10px;
+      }
+
+      .dashboard .customize input[type="color"] {
+        padding: 10px;
+        border-radius: 6px;
+        border: 1px solid #cccccc;
+        font-size: 16px;
+        cursor: pointer;
+      }
+
+      .dashboard .submit-btn {
+        margin-top: 20px;
+        padding: 10px;
+        background: #c933e7;
+        border: none;
+        color: #fff;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 16px;
+        transition: background 0.3s ease-in-out;
+      }
+
+      .dashboard .submit-btn:hover {
+        background: #b029d1;}
+
+    .chatbot-icon {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      width: 150px;
+      height: 150px;
+      cursor: pointer;
+    }
+
+      .dashboard .logout-btn {
+        margin-top: 20px;
+        padding: 10px;
+        background: #c933e7;
+        border: none;
+        color: #fff;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 16px;
+        transition: background 0.3s ease-in-out;
+      }
+
+      .dashboard .logout-btn:hover {
+        background: #b029d1;
+      }
+
+      .track-cycle {
+        margin-top: 20px;
+        text-align: center;
+      }
+
+      .icon-btn {
+        background: none;
+        border: none;
+        cursor: pointer;
+      }
+
+      .icon-btn img {
+        width: 100px; /* Adjust size as needed */
+        height: auto;
+      }
+
+      .period-details {
+        margin-top: 20px;
+        padding: 10px;
+        background: rgba(255, 255, 255, 0.9);
+        border-radius: 6px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        width: 100%;
+        max-width: 800px;
+        text-align: left;
+      }
+
+      .period-health {
+        margin-top: 20px;
+        padding: 10px;
+        background: rgba(255, 255, 255, 0.9);
+        border-radius: 6px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        width: 100%;
+        max-width: 800px;
+      }
+
+      .mood-cravings {
+        margin-top: 20px;
+        padding: 10px;
+        background: rgba(255, 255, 255, 0.9);
+        border-radius: 6px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        width: 100%;
+        max-width: 800px;
+      }
+
+      .relief-tips {
+        margin-top: 20px;
+        padding: 10px;
+        background: rgba(255, 255, 255, 0.9);
+        border-radius: 6px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        width: 100%;
+        max-width: 800px;
+      }
+
+      /* Modal styles */
+      .modal {
+        display: none; /* Hidden by default */
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.4); /* Black with opacity */
+      }
+
+      .modal-content {
+        background-color: #fefefe;
+        margin: 15% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%;
+      }
+
+      .mood-cravings-btn {
+        margin-top: 20px;
+        padding: 10px 20px;
+        background: #4caf50; /* Green background */
+        border: none;
+        color: #fff;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 16px;
+        transition: background 0.3s ease-in-out;
+      }
+
+      .mood-cravings-btn:hover {
+        background: #45a049; /* Darker green on hover */
+      }
+
+      .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+      }
+
+      .close:hover,
+      .close:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+      }
+
+      .hidden {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="dashboard">
+      <div class="logo-header">
+        <img
+          src="https://cdn-icons-png.flaticon.com/512/4624/4624269.png"
+          alt="Website Logo"
+          class="logo"
+        />
+        <h1 class="site-title">DASHBOARD</h1>
+      </div>
+      <h1>Welcome to your PMS Tracker!</h1>
+      <div class="track-cycle">
+        <button class="icon-btn" onclick="openFlower()">
+          <img
+            src="img.png"
+            alt="Track Cycle Icon"
+          />
+        </button>
+      </div>
+
+      <div class="period-health">
+        <h2>Period Health and Details</h2>
+        <p>
+          <strong>Details about Previous Cycles:</strong>
+          <br />
+          <span id="previousCycles"></span>
+        </p>
+      </div>
+
+      <div class="mood-cravings">
+        <h2>Mood and Cravings</h2>
+        <p>
+          <strong>Rate Your Mood:</strong>
+          <br />
+          <input
+            type="range"
+            id="moodRange"
+            min="0"
+            max="10"
+            step="1"
+            value="5"
+          />
+          <span id="moodRating">5</span>
+        </p>
+        <p>
+          <strong>Cravings:</strong>
+          <input
+            type="text"
+            id="cravings"
+            placeholder="Describe your cravings"
+          />
+        </p>
+        <button class="mood-cravings-btn" onclick="openModal()">Add Mood and Cravings</button>
+      </div>
+
+      <div class="period-health">
+        <h2>Period Health</h2>
+        <p>
+          Here you can find information on maintaining period health and tips.
+        </p>
+        <ul>
+          <li>
+            <a
+              href="https://youtu.be/vU3LmEc-hCI?si=2NfgaZnvWelOz1dW"
+              target="_blank"
+              >How to Manage Period Cramps Naturally</a
+            >
+            - Tips on reducing period cramps using natural methods.
+          </li>
+          <li>
+            <a
+              href="https://youtu.be/3PaswCBD9j0?si=sPLeMyZZ5LQbt4KI"
+              target="_blank"
+              >Period Health 101: Understanding Your Menstrual Cycle</a
+            >
+            - An informative video about the menstrual cycle
+          </li>
+          <li>
+            <a
+              href="https://youtu.be/kmWbOC8Fbb0?si=QTzKgQJfTAEBTb2x"
+              target="_blank"
+              >Best Practices for Using Period Products</a
+            >
+            - Guide to using tampons, pads, and menstrual cups effectively and
+            safely.
+          </li>
+          <li>
+            <a
+              href="https://youtu.be/0bq9f5A62C8?si=_So0vdsvt1zMfqE8"
+              target="_blank"
+              >Diet and Exercise Tips to Ease Period Symptoms</a
+            >
+            - Suggestions on how diet and exercise can help alleviate period
+            symptoms.
+          </li>
+          <li>
+            <a
+              href="https://youtu.be/bkoqKWZtB_0?si=PR7eon6bsgfFQckf"
+              target="_blank"
+              >What to Know About Menstrual Irregularities</a
+            >
+            - Information on what might cause irregular periods and when to seek
+            medical advice.
+          </li>
+        </ul>
+      </div>
+      <div class="relief-tips">
+        <h2>Exercises and Foods for Relief</h2>
+        <p>Discover exercises and foods that can help alleviate cramps.</p>
+        <div class="relief-tips-content">
+          <h3>Recommended Exercises</h3>
+          <p>Here are some exercises that can help relieve menstrual cramps:</p>
+          <ul>
+            <li>
+              <a
+                href="https://youtu.be/eZdwBl1yu14?si=YBcDsocqadWi2nwK"
+                target="_blank"
+                >Gentle Yoga for Menstrual Cramps</a
+              >
+              - This video provides a calming series of yoga poses specifically
+              designed to alleviate menstrual cramps. The session focuses on
+              gentle movements and deep breathing techniques to reduce abdominal
+              pain and promote relaxation. The instructor guides you through
+              poses that stretch and soothe the lower abdomen, helping to
+              relieve discomfort and stress.
+            </li>
+            <li>
+              <a
+                href="https://youtu.be/S4UfZ2TV_uA?si=91QEC1JbxpHu-IFK"
+                target="_blank"
+                >12 Minute Slow Workout for Cramps Relief</a
+              >
+              - A slow and efficient workout aimed at providing relief from
+              menstrual cramps. This twelve-minute routine includes targeted
+              exercises that strengthen the core muscles and ease tension in the
+              abdominal area. It is ideal for those looking for a brief,
+              effective workout to manage pain.
+            </li>
+            <li>
+              <a
+                href="https://youtu.be/2X78NWuRfJU?si=NPUifgzsK2wXNtg9"
+                target="_blank"
+                >Lower Back Pain Relief Exercises</a
+              >
+              - This video features exercises specifically tailored to relieve
+              lower back pain, which is a common issue during menstruation. The
+              routine includes stretches and strengthening exercises that help
+              alleviate discomfort in the lower back, providing relief from
+              menstrual cramps and supporting overall back health.
+            </li>
+            <li>
+              <a
+                href="https://youtu.be/oPzlRICxkP0?si=ZZWCF9JqNsy-A77y"
+                target="_blank"
+                >Stretching Routine for Menstrual Pain</a
+              >
+              - Follow along with this stretching routine designed to ease
+              menstrual pain. The video includes a series of stretches that
+              target the abdominal area, lower back, and hips. Each stretch is
+              explained in detail, helping to relieve tension and reduce pain
+              associated with menstruation.
+            </li>
+          </ul>
+          <h3>Helpful Foods</h3>
+          <p>
+            Eating the right foods can significantly help in managing menstrual
+            cramps. Here are some beneficial foods and why they are effective:
+          </p>
+          <ul>
+            <li>
+              <a
+                href="https://www.prevention.com/health/g41446652/foods-that-help-with-period-cramps/"
+                target="_blank"
+                >Foods to Eat for Period Cramps Relief</a
+              >
+              - This comprehensive article highlights foods rich in
+              anti-inflammatory properties and essential nutrients that can help
+              alleviate period cramps. It emphasizes the benefits of
+              incorporating fatty fish, such as salmon, nuts, and leafy greens
+              into your diet. These foods contain omega-3 fatty acids and
+              magnesium, which help reduce inflammation and muscle cramps.
+            </li>
+
+            <li>
+              <a
+                href="https://www.medicalnewstoday.com/articles/324484"
+                target="_blank"
+                >How to Relieve Period Pain: 6 Tips
+              </a>
+              - Offers a comprehensive guide to relieving period pain through
+              dietary changes. The article highlights foods rich in magnesium,
+              like avocados and bananas, and omega-3 fatty acids, such as
+              flaxseeds and walnuts. These nutrients can help reduce muscle
+              cramps and improve overall comfort during menstruation.
+            </li>
+
+            <li>
+              <a
+                href="https://www.womenshealthmag.com/food/g43710577/foods-that-help-with-period-cramps/"
+                target="_blank"
+                >Foods That Can Help Reduce Period Pain
+              </a>
+              - Offers insights into foods with anti-inflammatory effects that
+              can help with period pain. The article includes turmeric, chia
+              seeds, and sweet potatoes, explaining their benefits. Turmeric
+              contains curcumin, which has strong anti-inflammatory properties,
+              and chia seeds are rich in omega-3 fatty acids.
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="chatbot-toggle" onclick="toggleChatbot()"></div>
+      <img src="bot.png" alt="Chatbot Icon" class="chatbot-icon" onclick="toggleChatbot()">
+      </div>
+    </div>
+
+    <!-- Modal for Mood and Cravings -->
+    <div id="moodCravingsModal" class="modal">
+      <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <h2>Mood and Cravings Details</h2>
+        <p>
+          <strong>Mood:</strong>
+          <br />
+          <input type="text" id="modalMood" placeholder="Describe your mood" />
+        </p>
+        <p>
+          <strong>Cravings:</strong>
+          <br />
+          <input type="text" id="modalCravings" placeholder="Describe your cravings" />
+        </p>
+        <button class="submit-btn" onclick="submitModal()">Save</button>
+      </div>
+    </div>
+
+    <script>
+      // Toggle chatbot visibility
+      function toggleChatbot() {
+      window.open("chat_bot.html", "_blank");
+    }
+
+      // Function to submit the form
+      function submitDetails() {
+        // Collect form data
+        const lastPeriodStart = document.getElementById("lastPeriodStart").value;
+        const lastPeriodEnd = document.getElementById("lastPeriodEnd").value;
+        const todayFeeling = document.getElementById("todayFeeling").value;
+
+        // Prepare data for submission
+        const formData = new FormData();
+        formData.append("lastPeriodStart", lastPeriodStart);
+        formData.append("lastPeriodEnd", lastPeriodEnd);
+        formData.append("todayFeeling", todayFeeling);
+
+        // Send data to server
+        fetch("add_detail.php", {
+          method: "POST",
+          body: formData
+        })
+          .then(response => response.json())
+          .then(data => {
+            if (data.success) {
+              // Redirect to dashboard
+              window.location.href = "dashboard.html";
+            } else {
+              alert("There was an error submitting your details.");
+            }
+          });
+      }
+
+      // Function to open the modal
+      function openModal() {
+        document.getElementById("moodCravingsModal").style.display = "block";
+      }
+
+      // Function to close the modal
+      function closeModal() {
+        document.getElementById("moodCravingsModal").style.display = "none";
+      }
+
+      // Function to submit the modal data
+      function submitModal() {
+        const mood = document.getElementById("modalMood").value;
+        const cravings = document.getElementById("modalCravings").value;
+
+        // Prepare data for submission
+        const formData = new FormData();
+        formData.append("mood", mood);
+        formData.append("cravings", cravings);
+
+        // Send data to server
+        fetch("add_mood_cravings.php", {
+          method: "POST",
+          body: formData
+        })
+          .then(response => response.json())
+          .then(data => {
+            if (data.success) {
+              closeModal();
+            } else {
+              alert("There was an error saving your mood and cravings.");
+            }
+          });
+      }
+
+      // Update mood rating display
+      document.getElementById("moodRange").addEventListener("input", function () {
+        document.getElementById("moodRating").textContent = this.value;
+      });
+
+      // Placeholder for next period prediction functionality
+      function predictNextPeriod() {
+        fetch("predict.py")
+          .then(response => response.json())
+          .then(data => {
+            // Update the dashboard with the predicted next period date
+            // This part assumes your predict.py script returns JSON with the prediction
+          });
+      }
+
+      // Load data on page load
+      document.addEventListener("DOMContentLoaded", function () {
+        // Fetch and display previous cycle details, mood, cravings, etc.
+        // Example code to fetch and update previous cycles (pseudo-code)
+        fetch("fetch_details.php")
+          .then(response => response.json())
+          .then(data => {
+            document.getElementById("previousCycles").textContent = data.previousCycles;
+            // Update other elements as needed
+          });
+
+        predictNextPeriod();
+      });
+    </script>
+  </body>
+</html>
